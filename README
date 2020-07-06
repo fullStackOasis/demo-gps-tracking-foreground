@@ -1,0 +1,4 @@
+This is a simple Android app written in Java that lets you track your GPS history.
+
+Latitude, longitude pairs are stored and displayed in a list.
+You can click a pair and you'll get taken to a Google Map.
