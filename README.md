@@ -1,3 +1,5 @@
+# Android GPS tracker
+
 This is a simple Android app written in Java that lets you track your GPS history. It's a proof of concept that allows you to open an app, start storing GPS coordinates, then minimize the app and use your mobile device for other things (phone calls, texting, and so on). This app won't be shut down because it runs a "[foreground service](https://developer.android.com/reference/android/app/Service)". Quoting the documentation:
 The "system considers [the app] to be something the user is actively aware of and thus not a candidate for killing when low on memory. (It is still theoretically possible for the service to be killed under extreme memory pressure from the current foreground application, but in practice this should not be a concern.)"
 
