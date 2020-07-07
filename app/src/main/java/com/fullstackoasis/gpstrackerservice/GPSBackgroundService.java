@@ -48,10 +48,10 @@ import androidx.core.content.ContextCompat;
 
 public class GPSBackgroundService extends Service {
     private static String TAG = GPSBackgroundService.class.getCanonicalName();
-    private LatLngQueue<MyLocationListener.LatLng> q =
-            new LatLngQueue<MyLocationListener.LatLng>(250);
+    private LatLngQueue<LatLngPojo> q =
+            new LatLngQueue<LatLngPojo>(250);
 
-    public void addLatLng(MyLocationListener.LatLng latLong) {
+    public void addLatLng(LatLngPojo latLong) {
         q.add(latLong);
         sendMessage(q);
     }
@@ -142,9 +142,10 @@ public class GPSBackgroundService extends Service {
     private int startId;
     // This debug flag is only here for testing to see if this service has been started as a
     // foreground service. If so, a log message is printed periodically.
-    private static boolean DEBUG = true;
+    private static boolean DEBUG = false;
     private Handler handler;
     private IBinder binder;
+    private static int N_MOCKED_POINTS = 260;
 
     @Override
     public void onCreate() {
@@ -167,7 +168,15 @@ public class GPSBackgroundService extends Service {
         }
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-        Log.d(TAG, "Ooops we're good");
+        Log.d(TAG, "onCreate, mocking data");
+        if (DEBUG) {
+            for (int i = 0; i < N_MOCKED_POINTS; i++) {
+                double wiggle = Math.random();
+                LatLngPojo x = new LatLngPojo(37.7749 + wiggle,
+                        -122.4192 + wiggle);
+                q.add(x);
+            }
+        }
         // For debug only
         if (DEBUG) {
             handler = new Handler();
@@ -317,7 +326,7 @@ public class GPSBackgroundService extends Service {
         return Service.START_STICKY;
     }
 
-    public void sendMessage(LatLngQueue<MyLocationListener.LatLng> q) {
+    public void sendMessage(LatLngQueue<LatLngPojo> q) {
         if (DEBUG) Log.d(TAG, "Got message to send message... " + clients.size());
         for (int i = clients.size() - 1; i >= 0; i--) {
             try {

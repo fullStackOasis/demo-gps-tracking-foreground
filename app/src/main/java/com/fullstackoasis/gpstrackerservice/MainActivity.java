@@ -26,6 +26,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -115,14 +116,19 @@ public class MainActivity extends AppCompatActivity {
     class IncomingHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            Log.d(TAG, "oops handleMessage: " + msg.what);
+            Log.d(TAG, "handleMessage: " + msg.what);
             switch (msg.what) {
                 case GPSBackgroundService.MSG_SET_VALUE:
-                    LatLngQueue<MyLocationListener.LatLng> q =
-                            (LatLngQueue<MyLocationListener.LatLng>)msg.obj;
+                    LatLngQueue<LatLngPojo> q =
+                            (LatLngQueue<LatLngPojo>)msg.obj;
                     if (q != null) {
-                        for (MyLocationListener.LatLng item : q) {
-                            addItem(item);
+                        Log.d(TAG, "q was not null... remove all text views");
+                        removeAllTextViews();
+                        int counter = 1;
+                        Log.d(TAG, "q was not null... add all text views");
+                        for (LatLngPojo item : q) {
+                            addItem(counter, item);
+                            counter++;
                         }
                     }
                     break;
@@ -133,19 +139,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addItem(MyLocationListener.LatLng item) {
-        Log.d(TAG, "oops addItem: " + item);
+    private void removeAllTextViews() {
+        LinearLayout ll = findViewById(R.id.linearLayout);
+        ll.removeAllViews();
+    }
+    private void addItem(int counter, LatLngPojo item) {
         TextView tv = new TextView(this);
-        final String latLngText = item.getLat() + "," + item.getLng();
+        final String latLngPair = item.getLat() + "," + item.getLng();
+        final String latLngText = "(" + counter + ") " + latLngPair;
+        Log.d(TAG, "addItem: " + latLngText);
         tv.setText(latLngText);
-        float myTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,18F,
+        float myTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,4F,
                 this.getResources().getDisplayMetrics());
+        tv.setPadding(4, 30, 4, 30);
+        tv.setPaintFlags(tv.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         tv.setTextSize(myTextSize);
+        tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         if (DEEP_LINK) {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    doDeepLink(latLngText);
+                    doDeepLink(latLngPair);
                 }
             });
         }
@@ -154,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doDeepLink(String latLngText) {
+        Log.d(TAG, "Deep linking with text " + latLngText);
         Uri gmmIntentUri = Uri.parse("geo:" + latLngText);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");

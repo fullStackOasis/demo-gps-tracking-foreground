@@ -47,7 +47,7 @@ public class MyLocationListener implements LocationListener {
         try {
             Double latitude = loc.getLatitude();
             Double longitude = loc.getLongitude();
-            LatLng l = new LatLng(latitude, longitude);
+            LatLngPojo l = new LatLngPojo(latitude, longitude);
             Log.d(TAG, l.toString());
             c.addLatLng(l);
             /* Client has not requested this.
@@ -71,23 +71,4 @@ public class MyLocationListener implements LocationListener {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-    class LatLng {
-        public double getLng() {
-            return lng;
-        }
-        public double getLat() {
-            return lat;
-        }
-        private final double lng;
-        private final double lat;
-
-        LatLng(double lat, double lng) {
-            this.lat = lat;
-            this.lng = lng;
-        }
-        public String toString() {
-            return this.lat + ", " + this.lng;
-        }
-    }
 }
