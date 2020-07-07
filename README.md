@@ -9,4 +9,6 @@ You can click a lat+long pair in the displayed list, when the app is opened, and
 
 This is just a proof of concept! That means there are some things that aren't done "properly". In particular, data storage isn't handled well. The foreground service is in charge of a queue of GPS coordinates. If that service ends, your data goes poof. The UI is really very simple and could use additional work; it might be wise to replace this with a `RecyclerView`. But for now, the app is working fine for me.
 
+# Caveat
+
 The app will break when you first add it to Android Studio, because it needs a png file. You can add your own png, and that should fix the issue.
