@@ -17,4 +17,6 @@ The app will break when you first add it to Android Studio, because it needs a p
 
 ![GPS tracker app](https://github.com/fullStackOasis/demo-gps-tracking-foreground/raw/master/gpstrackerservice-screenshot.png)
 
+# Video of the App
+
 And here's a [link to a YouTube video that shows the working app](https://www.youtube.com/watch?v=ztup0Iv0fUU).
