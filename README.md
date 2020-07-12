@@ -12,3 +12,9 @@ This is just a proof of concept! That means there are some things that aren't do
 # Caveat
 
 The app will break when you first add it to Android Studio, because it needs a png file. You can add your own png, and that should fix the issue.
+
+# Screenshot
+
+![GPS tracker app](https://github.com/fullStackOasis/demo-gps-tracking-foreground/raw/master/gpstrackerservice-screenshot.png)
+
+And here's a [link to a YouTube video that shows the working app](https://www.youtube.com/watch?v=ztup0Iv0fUU).
